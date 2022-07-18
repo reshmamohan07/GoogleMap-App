@@ -1,0 +1,54 @@
+<div class="row mt-5">
+  <div class="col-sm-12 d-flex align-items-center flex-column">
+    <form class="example-form" (ngSubmit)="getClimate()">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Enter the Location</mat-label>
+        <input name="location" matInput placeholder="Ex. Kerala"
+          value="Kerala" [formControl]="locationCtrl"
+          [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button type="button" mat-raised-button color="primary" class="mt-3 d-flex ml-auto" (click)="getClimate()">Search</button>
+    </form>
+  </div>
+
+  <div class="col-sm-12 d-flex align-items-center flex-column" *ngIf="weatherReport">
+    <div class="weather-report mt-4">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{ weatherReport?.location?.name + ', ' + weatherReport?.location?.region }}</mat-card-title>
+          <mat-card-subtitle>{{  weatherReport?.location?.country }}</mat-card-subtitle>
+          <div class="weather-time">{{ weatherReport?.location?.localtime }}</div>
+        </mat-card-header>
+        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+        <mat-card-content>
+          <div>
+            <div>
+            Current Temperature: <b>{{ weatherReport?.current?.temp_c }}<sup>o</sup> C</b>
+            </div>
+            <div>
+              Feels Like: <b>{{ weatherReport?.current?.feelslike_c}}<sup>o</sup> C</b>
+            </div>
+            <div>
+              Weather Condition: <b>{{weatherReport?.current?.condition?.text}}</b>
+              <img src="{{weatherReport?.current?.condition?.icon}}" >
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="accent" (click)="getClimate()">Refresh</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+
+
+
+
